@@ -1,0 +1,320 @@
+html {
+    scrollbar-gutter: stable;
+}
+
+.navbar-custom {
+    height: 72px;
+    background: rgba(12, 13, 16, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 0 clamp(16px, 2.5vw, 40px);
+    display: grid;
+    align-items: center;
+    grid-template-columns: auto minmax(0, 1fr) minmax(220px, 320px);
+    column-gap: clamp(8px, 1.25vw, 20px);
+}
+
+.logo {
+    flex: 0 0 auto;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    font-weight: 900;
+    font-size: 1.4rem;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.logo span {
+    color: var(--accent);
+}
+
+.search-container {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-tools {
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-self: end;
+}
+
+.search-container input {
+    width: 100%;
+    min-width: 0;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 8px 16px 8px 40px;
+    color: white;
+    font-size: 0.875rem;
+    outline: none;
+    height: 38px;
+}
+
+.search-container input:focus-visible {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2);
+}
+
+.search-reopen-button {
+    position: absolute;
+    left: 8px;
+    top: 5px;
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+}
+
+.search-reopen-button:hover {
+    color: var(--accent);
+}
+
+.search-reopen-button svg {
+    width: 16px;
+    height: 16px;
+    margin: 0 !important;
+    padding: 0 !important;
+    pointer-events: none;
+}
+
+.search-reopen-button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.region-nav-container {
+    position: fixed;
+    top: 72px;
+    width: 100%;
+    height: 76px;
+    background: rgba(12, 13, 16, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.region-nav {
+    width: 100%;
+    max-width: 100%;
+    height: 64px;
+    padding: 0 clamp(12px, 2.5vw, 40px);
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 212, 255, 0.25) rgba(255, 255, 255, 0.02);
+}
+
+.region-nav::-webkit-scrollbar {
+    height: 4px;
+    display: block;
+}
+
+.region-nav::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.01);
+    border-radius: 99px;
+    margin: 0 clamp(12px, 2.5vw, 40px);
+}
+
+.region-nav::-webkit-scrollbar-thumb {
+    background: rgba(0, 212, 255, 0.2);
+    border-radius: 99px;
+    transition: background 0.3s;
+}
+
+.region-nav::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
+
+.region-item {
+    flex: 0 0 auto;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    padding: 8px 14px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-dim);
+    cursor: pointer;
+    white-space: nowrap;
+    position: relative;
+    transition: color 0.3s;
+}
+
+.region-item:hover {
+    color: white;
+}
+
+.region-item.active {
+    color: var(--accent);
+}
+
+.region-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 14px;
+    right: 14px;
+    height: 2px;
+    background: var(--accent);
+}
+
+.region-item:focus-visible,
+.nav-link-btn:focus-visible,
+.navbar-custom button:focus-visible,
+.mobile-nav-menu button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex: 0 1 auto;
+    min-width: 0;
+    gap: clamp(2px, 0.55vw, 9px);
+}
+
+.nav-link-btn {
+    position: relative;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-dim);
+    padding: 6px clamp(6px, 0.75vw, 12px);
+    border-radius: 99px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+.nav-link-btn i, .nav-link-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+.nav-link-btn:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.nav-link-btn.active {
+    color: var(--accent);
+    background: rgba(0, 212, 255, 0.05);
+    border-color: rgba(0, 212, 255, 0.15);
+}
+
+#navFavBadge {
+    position: absolute;
+    top: -2px;
+    right: -4px;
+    z-index: 1;
+}
+
+@media (max-width: 1400px) {
+    .navbar-custom {
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+
+    .nav-link-btn {
+        font-size: 0.66rem;
+        letter-spacing: 0.35px;
+    }
+}
+
+@media (max-width: 1180px) {
+    .navbar-custom {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .nav-links {
+        display: none !important;
+    }
+
+    .navbar-tools {
+        grid-column: 2;
+    }
+
+    #mobileNavToggle {
+        display: inline-flex !important;
+        align-items: center;
+        flex: 0 0 auto;
+        margin-left: clamp(8px, 1vw, 14px);
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-custom {
+        padding: 0 16px;
+        gap: 10px;
+    }
+
+    .region-nav-container {
+        height: 68px;
+    }
+
+    .region-nav {
+        height: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-custom {
+        padding: 0 12px;
+        gap: 8px;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .search-container input {
+        padding-right: 8px;
+        padding-left: 36px;
+        font-size: 0.78rem;
+    }
+
+    .search-reopen-button {
+        left: 6px;
+    }
+
+    #mobileNavToggle {
+        padding-right: 10px !important;
+        padding-left: 10px !important;
+    }
+}

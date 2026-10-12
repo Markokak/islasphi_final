@@ -1,0 +1,37 @@
+:root {
+    --bg: #0c0d10;
+    --card-bg: rgba(255, 255, 255, 0.04);
+    --accent: #00d4ff;
+    --text: #e0e6ed;
+    --text-dim: #94a3b8;
+    --font-sans: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    margin: 0;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+.glass {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-hover:hover {
+    border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-4px);
+    transition: all 0.3s ease;
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, #ffffff 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

@@ -1,0 +1,8 @@
+{
+  "name": "IslasPhi",
+  "description": "Artistic Soul of the Islands - Explore the unique vibes, local delicacies, costs, and itineraries of the Philippines across 18 rich historic regions.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

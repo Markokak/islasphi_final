@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IslasPhi</title>
+    <meta name="description" content="Artistic Soul of the Islands - Explore the unique vibes, local delicacies, costs, and itineraries of the Philippines across 18 rich historic regions.">
+    <meta property="og:title" content="IslasPhi">
+    <meta property="og:description" content="Artistic Soul of the Islands - Explore the unique vibes, local delicacies, costs, and itineraries of the Philippines across 18 rich historic regions.">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <nav class="navbar-custom">
+        <button class="logo" type="button" aria-label="IslasPhi home" onclick="switchView('home')">
+            ISLAS<span>PHI</span>
+        </button>
+
+        <div class="nav-links d-none d-lg-flex">
+            <button class="nav-link-btn active" id="btnNavHome" onclick="switchView('home')">
+                <i data-lucide="home"></i>
+                <span>Home</span>
+            </button>
+            <button class="nav-link-btn" id="btnNavExplore" onclick="switchView('explore')">
+                <i data-lucide="map"></i>
+                <span>Explore Regions</span>
+            </button>
+            <button class="nav-link-btn" id="btnNavPlanner" onclick="switchView('planner')">
+                <i data-lucide="compass"></i>
+                <span>Trip Planner</span>
+            </button>
+            <button class="nav-link-btn" id="btnNavFavorites" onclick="switchView('favorites')">
+                <i data-lucide="heart"></i>
+                <span>Saved Spots</span>
+                <span id="navFavBadge" class="badge bg-accent text-dark fw-bold rounded-pill px-2 py-0.5" style="display: none; font-size: 0.65rem; line-height: 1;">0</span>
+            </button>
+            <button class="nav-link-btn" id="btnNavCommunity" onclick="switchView('community')">
+                <i data-lucide="message-square"></i>
+                <span>Travel Logs</span>
+            </button>
+        </div>
+
+        <div class="navbar-tools">
+            <div class="search-container" id="navbarSearchContainer">
+                <button class="search-reopen-button" id="restoreSearchButton" type="button" aria-label="Restore previous search" title="Restore previous search">
+                    <i data-lucide="search"></i>
+                </button>
+                <input type="search" id="searchInput" aria-label="Search destinations, foods, or regions" placeholder="Search destinations, foods, regions..." autocomplete="off">
+            </div>
+
+            <button id="mobileNavToggle" class="btn btn-dark d-inline-block d-lg-none rounded-pill border border-white-10 py-1.5 px-3" type="button" aria-controls="mobileNavMenu" aria-expanded="false" onclick="toggleMobileNav()">
+                <i data-lucide="menu" style="width:14px; height:14px;"></i> Menu
+            </button>
+        </div>
+    </nav>
+
+    <div id="mobileNavMenu" class="mobile-nav-menu glass border-bottom border-white-5 p-3" style="display: none; position: fixed; top: 72px; left: 0; width: 100%; z-index: 1001; background: rgba(12, 13, 16, 0.98);">
+        <div class="d-flex flex-column gap-2 text-center">
+            <button class="btn text-white w-100 py-2 border-0" onclick="switchView('home'); toggleMobileNav();">Home</button>
+            <button class="btn text-white w-100 py-2 border-0" onclick="switchView('explore'); toggleMobileNav();">Explore Regions</button>
+            <button class="btn text-white w-100 py-2 border-0" onclick="switchView('planner'); toggleMobileNav();">Trip Planner &amp; Budget</button>
+            <button class="btn text-white w-100 py-2 border-0 d-flex align-items-center justify-content-center gap-2" onclick="switchView('favorites'); toggleMobileNav();">
+                <span>Saved Spots</span>
+                <span id="mobileFavBadge" class="badge bg-accent text-dark fw-bold rounded-pill px-2 py-0.5" style="display: none; font-size: 0.65rem; line-height: 1;">0</span>
+            </button>
+            <button class="btn text-white w-100 py-2 border-0" onclick="switchView('community'); toggleMobileNav();">Travel Logs &amp; Reviews</button>
+        </div>
+    </div>
+
+    <section id="homeView" class="view-panel">
+        
+        <div class="home-hero" style="background-image: url('assets/homepage.jpg')">
+            <div class="home-hero-overlay"></div>
+            <div class="home-hero-content text-start">
+                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3 border border-white-10" style="background: rgba(0, 212, 255, 0.08);">
+                    <i data-lucide="sparkles" class="text-accent" style="width: 14px; height: 14px;"></i>
+                    <span class="text-accent small fw-bold text-uppercase" style="font-size: 0.68rem; letter-spacing: 1.5px;">Authentic Philippine Travel Guide</span>
+                </div>
+                <h1 class="display-3 fw-black text-white m-0 tracking-tight" style="line-height:1.1">
+                    Artistic Soul of <span class="text-gradient">the Islands</span>
+                </h1>
+                <p class="text-dim lead my-3.5" style="font-size: 1.05rem; line-height: 1.5; font-weight:300;">
+                    Explore the vibrant cultures, local culinary treasures, budget breakdowns, and curated itineraries across 18 historic Philippine regions, thousands of beaches, and majestic volcanic peaks.
+                </p>
+
+                <div class="home-searchbar">
+                    <i data-lucide="search"></i>
+                    <input type="search" id="homeSearchInput" aria-label="Search Philippine destinations" placeholder="Where in the Philippines do you want to wander?" autocomplete="off">
+                </div>
+
+                <div class="mt-4 d-flex flex-wrap gap-2">
+                    <button class="btn btn-accent rounded-pill px-4 py-2.5 fw-black text-uppercase small" style="font-size: 0.72rem; letter-spacing: 1px;" onclick="switchView('explore')">
+                        Start Exploring
+                    </button>
+                    <button class="btn btn-outline-light rounded-pill px-4 py-2.5 fw-bold text-uppercase small" style="font-size: 0.72rem; letter-spacing: 1px;" onclick="switchView('planner')">
+                        Estimate Travel Cost
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-5">
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="h2 fw-black text-accent m-0">18</div>
+                    <div class="text-dim small text-uppercase fw-bold mt-1" style="font-size: 0.68rem; letter-spacing: 1px;">Rich Regions</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="h2 fw-black text-accent m-0">90+</div>
+                    <div class="text-dim small text-uppercase fw-bold mt-1" style="font-size: 0.68rem; letter-spacing: 1px;">Curated Spots</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="h2 fw-black text-accent m-0">3</div>
+                    <div class="text-dim small text-uppercase fw-bold mt-1" style="font-size: 0.68rem; letter-spacing: 1px;">Island Clusters</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="h2 fw-black text-accent m-0">100%</div>
+                    <div class="text-dim small text-uppercase fw-bold mt-1" style="font-size: 0.68rem; letter-spacing: 1px;">Authentic Photos</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-5 text-start">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+                <div>
+                    <h2 class="fw-black text-uppercase h4 m-0">Explore by Major Island Hubs</h2>
+                    <div style="width: 48px; height: 4px; background: var(--accent); border-radius: 2px; margin-top: 8px;"></div>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="island-card glass">
+                        <div>
+                            <span class="text-accent fw-black text-uppercase small mb-2 d-block" style="font-size:0.65rem; letter-spacing: 1.5px;">Northern &amp; Central Cluster</span>
+                            <h3 class="fw-black text-white h4 mb-3">Luzon</h3>
+                            <p class="text-dim small" style="line-height:1.5; font-size: 0.78rem;">
+                                Home to the bustling skyline of the capital, the colonial cobblestones of Vigan, emerald terraces of Banaue, and the flawless volcanic cone of Mount Mayon.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-top border-white-5 d-flex justify-content-between align-items-center">
+                            <span class="text-white fw-bold small" style="font-size: 0.75rem;">8 Historic Regions</span>
+                            <button class="btn btn-sm btn-outline-accent rounded-pill px-3 py-1" onclick="focusIslandGroup('luzon')">Explore Luzon</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="island-card glass">
+                        <div>
+                            <span class="text-accent fw-black text-uppercase small mb-2 d-block" style="font-size:0.65rem; letter-spacing: 1.5px;">Tropical Sandbars &amp; Reefs</span>
+                            <h3 class="fw-black text-white h4 mb-3">Visayas</h3>
+                            <p class="text-dim small" style="line-height:1.5; font-size: 0.78rem;">
+                                World-famous powdery white sands of Boracay, dynamic metropolitan vibe and Spanish-era basilicas in Cebu, chocolate-shaped hills in Bohol, and lively festivals.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-top border-white-5 d-flex justify-content-between align-items-center">
+                            <span class="text-white fw-bold small" style="font-size: 0.75rem;">4 Majestic Regions</span>
+                            <button class="btn btn-sm btn-outline-accent rounded-pill px-3 py-1" onclick="focusIslandGroup('visayas')">Explore Visayas</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="island-card glass">
+                        <div>
+                            <span class="text-accent fw-black text-uppercase small mb-2 d-block" style="font-size:0.65rem; letter-spacing: 1.5px;">Wild Waters &amp; Lofty Peaks</span>
+                            <h3 class="fw-black text-white h4 mb-3">Mindanao</h3>
+                            <p class="text-dim small" style="line-height:1.5; font-size: 0.78rem;">
+                                The country's surfing capital Siargao, epic heights of Mount Apo, multi-tiered waterfalls in Iligan, rare pink beaches, and enchanting sultanate mosques.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-top border-white-5 d-flex justify-content-between align-items-center">
+                            <span class="text-white fw-bold small" style="font-size: 0.75rem;">6 Mystical Regions</span>
+                            <button class="btn btn-sm btn-outline-accent rounded-pill px-3 py-1" onclick="focusIslandGroup('mindanao')">Explore Mindanao</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-5 text-start">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+                <div>
+                    <h2 class="fw-black text-uppercase h4 m-0">The Big Five Philippine Icons</h2>
+                    <div style="width: 48px; height: 4px; background: var(--accent); border-radius: 2px; margin-top: 8px;"></div>
+                </div>
+                <button class="btn btn-sm btn-outline-accent rounded-pill px-3 py-1 text-uppercase" style="font-size:0.65rem; font-weight:700;" onclick="switchView('explore', { allRegions: true })">See All 18 Regions</button>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-15 col-md-4 col-sm-6 flex-fill">
+                    <div class="spot-card glass glass-hover border border-white-5 position-relative" style="height:320px;">
+                        <div class="card-img" style="background-image:url('assets/elnido.jpg'); height:160px;" onclick="openModal('elnido')"></div>
+                        <div class="card-body-custom p-3" onclick="openModal('elnido')">
+                            <span class="card-tag">Palawan</span>
+                            <h4 class="card-name text-white m-0" style="font-size:0.95rem;">El Nido Coves</h4>
+                            <p class="text-dim mt-2 m-0 featured-description">Stunning limestone karst cliffs ascending from jade waters.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-15 col-md-4 col-sm-6 flex-fill">
+                    <div class="spot-card glass glass-hover border border-white-5 position-relative" style="height:320px;">
+                        <div class="card-img" style="background-image:url('assets/binondo.jpg'); height:160px;" onclick="openModal('binondo')"></div>
+                        <div class="card-body-custom p-3" onclick="openModal('binondo')">
+                            <span class="card-tag">NCR</span>
+                            <h4 class="card-name text-white m-0" style="font-size:0.95rem;">Binondo Chinatown</h4>
+                            <p class="text-dim mt-2 m-0 featured-description">The oldest Chinatown on earth, famed for legendary food tracks.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-15 col-md-4 col-sm-6 flex-fill">
+                    <div class="spot-card glass glass-hover border border-white-5 position-relative" style="height:320px;">
+                        <div class="card-img" style="background-image:url('assets/homepage.jpg'); height:160px;" onclick="openModal('mayon')"></div>
+                        <div class="card-body-custom p-3" onclick="openModal('mayon')">
+                            <span class="card-tag">Bicol</span>
+                            <h4 class="card-name text-white m-0" style="font-size:0.95rem;">Mayon Perfect Cone</h4>
+                            <p class="text-dim mt-2 m-0 featured-description">World's most flawlessly symmetrical active cone volcano.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-15 col-md-4 col-sm-6 flex-fill">
+                    <div class="spot-card glass glass-hover border border-white-5 position-relative" style="height:320px;">
+                        <div class="card-img" style="background-image:url('assets/boracay.png'); height:160px;" onclick="openModal('boracay')"></div>
+                        <div class="card-body-custom p-3" onclick="openModal('boracay')">
+                            <span class="card-tag">Western Visayas</span>
+                            <h4 class="card-name text-white m-0" style="font-size:0.95rem;">Boracay White Beach</h4>
+                            <p class="text-dim mt-2 m-0 featured-description">Finest, cool powdery white silica sands in the tropical zone.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-15 col-md-4 col-sm-6 flex-fill">
+                    <div class="spot-card glass glass-hover border border-white-5 position-relative" style="height:320px;">
+                        <div class="card-img" style="background-image:url('assets/siargao.jpg'); height:160px;" onclick="openModal('siargao')"></div>
+                        <div class="card-body-custom p-3" onclick="openModal('siargao')">
+                            <span class="card-tag">Caraga</span>
+                            <h4 class="card-name text-white m-0" style="font-size:0.95rem;">Siargao Cloud 9</h4>
+                            <p class="text-dim mt-2 m-0 featured-description">The legendary epic surfing barrels and coconut-lined highways.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-5 text-start">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+                <div>
+                    <h2 class="fw-black text-uppercase h4 m-0">Essential Tourist Guidelines</h2>
+                    <div style="width: 48px; height: 4px; background: var(--accent); border-radius: 2px; margin-top: 8px;"></div>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="tip-pill text-start h-100">
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                            <i data-lucide="banknote" class="text-accent" style="width:20px; height:20px;"></i>
+                            <h4 class="text-white fw-bold m-0" style="font-size:0.9rem;">Cash in Smaller Notes</h4>
+                        </div>
+                        <p class="text-dim small m-0" style="line-height:1.5;">Major cards work inside metropolitan malls in Manila and Cebu, but provincial outrigger boats, rural tricycles, and roadside food stalls only transact in local Peso cash (PHP ₱20, ₱50, ₱100 bills).</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="tip-pill text-start h-100">
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                            <i data-lucide="shield-check" class="text-accent" style="width:20px; height:20px;"></i>
+                            <h4 class="text-white fw-bold m-0" style="font-size:0.9rem;">Accredited Eco-Guides Only</h4>
+                        </div>
+                        <p class="text-dim small m-0" style="line-height:1.5;">Whether trekking mountains like Pulag, spelunking in Sagada, or chartering bancas in Coron, always employ municipal-certified guides to keep you safe and respect local heritage boundaries.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="tip-pill text-start h-100">
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                            <i data-lucide="sun" class="text-accent" style="width:20px; height:20px;"></i>
+                            <h4 class="text-white fw-bold m-0" style="font-size:0.9rem;">Reef-Safe &amp; Eco-Friendly</h4>
+                        </div>
+                        <p class="text-dim small m-0" style="line-height:1.5;">Please use marine-friendly formulations of sunblock in coral lagoons. Bring reusable water flasks as island municipalities strictly minimize single-use plastics.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <div class="region-nav-container" id="regionNavContainer" style="display: none;">
+        <nav class="region-nav" id="regionNav" aria-label="Philippine regions">
+            
+        </nav>
+    </div>
+
+    <div class="main-wrapper" id="exploreView" style="display: none;">
+        <main class="content-area">
+            
+            <div class="hero-section" id="heroSection">
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <div class="hero-subtitle" id="heroSubtitle">Region Title</div>
+                    <h1 class="hero-title" id="heroTitle">Region Name</h1>
+                </div>
+            </div>
+
+            <div class="explore-filter-row d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+                <div class="d-flex flex-wrap align-items-center gap-2" role="group" aria-label="Filter destinations by island cluster">
+                    <span class="text-dim small text-uppercase fw-bold" style="font-size: 0.65rem;">Cluster:</span>
+                    <button class="hub-filter-btn active" data-hub="all">All (18)</button>
+                    <button class="hub-filter-btn" data-hub="luzon">Luzon</button>
+                    <button class="hub-filter-btn" data-hub="visayas">Visayas</button>
+                    <button class="hub-filter-btn" data-hub="mindanao">Mindanao</button>
+                </div>
+                <div class="text-dim small fw-bold" id="resultCount">0 DESTINATIONS FOUND</div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-end mb-4">
+                <div>
+                    <h2 class="fw-black text-uppercase h4 m-0" id="sectionTitle">Destinations</h2>
+                    <div style="width: 48px; height: 4px; background: var(--accent); border-radius: 2px; margin-top: 8px;"></div>
+                </div>
+            </div>
+
+            <div class="row g-4" id="spotGrid">
+                
+            </div>
+        </main>
+
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="d-flex justify-content-between mb-3 align-items-center">
+                    <span class="sidebar-title m-0">Region Overview</span>
+                    <button class="sidebar-scroll-button small text-accent text-uppercase fw-black" type="button" onclick="scrollToGrid()">Scroll To Grid</button>
+                </div>
+                <div class="glass p-3 rounded-4" id="sidebarOverviewContainer">
+                    <div class="position-relative overflow-hidden rounded-3 mb-3 border border-white-5" style="height: 140px;">
+                        <img src="assets/elnido.jpg" id="sidebarMapImg" alt="Region Photo" style="width:100%; height:100%; object-fit: cover; transition: all 0.5s ease;">
+                        <div class="position-absolute bottom-0 start-0 w-100 p-2 d-flex align-items-end" style="background: linear-gradient(0deg, rgba(12,13,16,0.95) 0%, transparent 100%);">
+                            <span class="badge bg-accent text-dark fw-black text-uppercase shadow" id="sidebarRegionBadge" style="font-size: 0.65rem; letter-spacing: 1px;">NCR</span>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column gap-2.5">
+                        <div>
+                            <div class="text-white-50 small text-uppercase fw-black mb-0.5" style="font-size: 0.6rem; letter-spacing: 1px;">Official Region</div>
+                            <div class="text-white fw-bold h6 m-0 text-gradient text-truncate" id="sidebarFullName">National Capital Region</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center py-2 border-top border-bottom border-white-5">
+                            <div>
+                                <div class="text-white-50 small text-uppercase fw-black mb-0.5" style="font-size: 0.6rem; letter-spacing: 0.5px;">Curated Spots</div>
+                                <div class="text-white fw-bold h6 m-0" id="sidebarSpotsCount">5 Spots</div>
+                            </div>
+                            <button class="btn btn-accent btn-sm rounded-pill py-1 px-3 fw-bold text-uppercase" style="font-size: 0.6rem; letter-spacing: 0.5px;" onclick="scrollToGrid()">See All</button>
+                        </div>
+                        <div>
+                            <div class="text-white-50 small text-uppercase fw-black mb-1" style="font-size: 0.6rem; letter-spacing: 1px;">Aesthetic &amp; Vibe</div>
+                            <p class="text-dim m-0" id="sidebarDesc" style="font-size: 0.72rem; line-height: 1.4;">Urban energy, Spanish colonial history, modern skylines.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Recent Highlights</div>
+                <div id="sidebarHighlights">
+                    
+                </div>
+            </div>
+
+            <div class="glass p-4 rounded-4" style="margin-top: auto;">
+                <div class="text-accent text-uppercase fw-black mb-2" style="font-size: 0.65rem; letter-spacing: 2px;">Local Expert Tip</div>
+                <p id="localTipText" class="small text-dim fst-italic mb-0">"Always bring cash in smaller denominations when leaving major urban blocks in the Philippines."</p>
+            </div>
+        </aside>
+    </div>
+
+    <section id="plannerView" class="view-panel" style="display: none;">
+        
+        <div class="glass p-4 p-md-5 rounded-4 mb-4 border border-white-5" style="background: linear-gradient(135deg, rgba(12, 13, 16, 0.98), rgba(0, 212, 255, 0.05));">
+            <div class="d-flex align-items-center gap-2 text-accent small text-uppercase fw-black mb-2" style="letter-spacing: 2.5px; font-size: 0.72rem;">
+                <i data-lucide="compass" class="text-accent" style="width: 14px; height: 14px;"></i>
+                <span>Smart Travel Intelligence</span>
+            </div>
+            <h1 class="fw-black h2 text-white m-0 text-gradient text-uppercase tracking-tight">Smart Trip Planner &amp; Budget Estimator</h1>
+            <p class="text-dim m-0 mt-2" style="font-size: 0.85rem; max-width: 680px;">
+                Calculate realistic Philippine trip budgets, generate day-by-day itineraries using real local landmarks and cuisine, and prevent travel scams with verified regional safety advice.
+            </p>
+        </div>
+
+        <div class="row g-4 text-start planner-layout">
+            
+            <div class="col-lg-5">
+                <div class="glass p-4 rounded-4 border border-white-5 planner-input-panel">
+                    <h3 class="fw-bold h5 text-white mb-3 d-flex align-items-center gap-2">
+                        <i data-lucide="sliders" class="text-accent" style="width: 16px; height: 16px;"></i>
+                        <span>Configure Your Trip</span>
+                    </h3>
+
+                    <div id="plannerErrorAlert" class="alert alert-danger py-2 px-3 small rounded-3" style="display: none; font-size: 0.75rem;"></div>
+
+                    <div class="d-flex flex-column gap-3 mb-4">
+                        <div>
+                            <label class="form-label text-dim small text-uppercase fw-black" style="font-size: 0.65rem;">Target Philippine Region</label>
+                            <select id="plannerRegion" class="glass-select w-100">
+                                
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="form-label text-dim small text-uppercase fw-black" style="font-size: 0.65rem;">Travel Style Category</label>
+                            <select id="plannerStyle" class="glass-select w-100">
+                                <option value="economy">Backpacker / Economy (₱1,800/day)</option>
+                                <option value="midrange" selected>Mid-Range Traveler (₱4,500/day)</option>
+                                <option value="luxury">Luxury Suite / Premium (₱14,000/day)</option>
+                            </select>
+                        </div>
+
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <label class="form-label text-dim small text-uppercase fw-black" style="font-size: 0.65rem;">Duration (1 - 14 Days)</label>
+                                <input type="number" id="plannerDuration" class="glass-input w-100" min="1" max="14" value="3">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label text-dim small text-uppercase fw-black" style="font-size: 0.65rem;">Travelers (1 - 10 Pax)</label>
+                                <input type="number" id="plannerPeople" class="glass-input w-100" min="1" max="10" value="2">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-column gap-2">
+                        <button id="generateItineraryBtn" class="btn btn-accent w-100 py-3 rounded-4 fw-black text-uppercase small letter-spacing-2">
+                            Calculate Budget &amp; Build Itinerary
+                        </button>
+                        <div class="d-flex gap-2">
+                            <button id="saveTripBtn" class="btn btn-outline-accent flex-grow-1 py-2 rounded-3 small fw-bold text-uppercase" style="font-size: 0.68rem;">
+                                <i data-lucide="bookmark" style="width: 13px; height: 13px;"></i> Save Trip
+                            </button>
+                            <button id="resetTripBtn" class="btn btn-outline-light py-2 px-3 rounded-3 small fw-bold text-uppercase" style="font-size: 0.68rem;">
+                                Reset
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-top border-white-5">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-dim small text-uppercase fw-bold" style="font-size: 0.65rem;">Saved Planned Trips (LocalStorage)</span>
+                        </div>
+                        <div id="savedTripsContainer" class="saved-trips-list">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div id="plannerResults" class="glass p-4 p-md-5 rounded-4 border border-white-5">
+                    
+                    <div class="d-flex justify-content-between align-items-center border-bottom border-white-10 pb-3 mb-4">
+                        <div>
+                            <div class="text-dim small text-uppercase fw-bold" style="font-size: 0.65rem;">Total Estimated Budget</div>
+                            <div id="plannerCostResult" class="display-6 fw-black text-accent m-0">₱0.00</div>
+                        </div>
+                        <div class="text-end">
+                            <div class="text-dim small text-uppercase fw-bold" style="font-size: 0.65rem;">Per Traveler (Pax)</div>
+                            <div id="plannerPerPersonResult" class="h5 text-white m-0">₱0.00</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="text-accent small text-uppercase fw-black mb-2.5 d-flex align-items-center gap-1">
+                            <i data-lucide="pie-chart" style="width:14px; height:14px;"></i>
+                            <span>Approximate Budget Allocation</span>
+                        </div>
+                        <div class="row g-2" id="plannerBreakdownGrid">
+                            
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="planner-itinerary-heading text-accent small text-uppercase fw-black mb-2.5 d-flex align-items-center justify-content-between">
+                            <span class="d-flex align-items-center gap-1">
+                                <i data-lucide="navigation" style="width:14px; height:14px;"></i>
+                                <span>Day-by-Day Curated Itinerary</span>
+                            </span>
+                            <button id="plannerCopyBtn" class="btn btn-outline-accent btn-sm rounded-pill px-3 py-1 fw-bold text-uppercase d-flex align-items-center gap-1" style="font-size: 0.62rem; letter-spacing: 0.5px;" onclick="copyPlannerItinerary()">
+                                <i data-lucide="copy" style="width:12px; height:12px;"></i>
+                                <span id="plannerCopyBtnText">Copy Itinerary</span>
+                            </button>
+                        </div>
+                        <div id="plannerItineraryTimeline" class="small text-dim d-flex flex-column gap-3">
+                            
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-white-5 rounded-3 border border-white-5 mb-3">
+                        <div class="text-white small fw-bold mb-1 d-flex align-items-center gap-1">
+                            <i data-lucide="info" style="width:14px; height:14px;" class="text-info"></i>
+                            <span>Packing &amp; Transit Guideline</span>
+                        </div>
+                        <p id="plannerTip" class="m-0 text-dim" style="font-size: 0.72rem; line-height: 1.4;"></p>
+                    </div>
+
+                    <div class="p-3 rounded-3 border mb-1" style="background: rgba(255, 94, 98, 0.04); border: 1px solid rgba(255, 94, 98, 0.15);">
+                        <div class="text-white small fw-bold mb-1.5 d-flex align-items-center gap-1.5" style="color: #ff5e62 !important;">
+                            <i data-lucide="shield-alert" style="width:14px; height:14px;"></i>
+                            <span>Tourist Shield: Scams &amp; Local Hazards to Avoid</span>
+                        </div>
+                        <p id="plannerScamShield" class="m-0 text-dim text-start" style="font-size: 0.72rem; line-height: 1.45;"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="favoritesView" class="view-panel" style="display: none;">
+        <div class="glass p-4 p-md-5 rounded-4 mb-4 border border-white-5" style="background: linear-gradient(135deg, rgba(12, 13, 16, 0.98), rgba(0, 212, 255, 0.05));">
+            <div class="d-flex align-items-center gap-2 text-accent small text-uppercase fw-black mb-2" style="letter-spacing: 2.5px; font-size: 0.72rem;">
+                <i data-lucide="heart" class="pulse-heart text-accent" style="width: 14px; height: 14px; fill: currentColor;"></i>
+                <span>Personalized Travel Hub</span>
+            </div>
+            <h1 class="fw-black h2 text-white m-0 text-gradient text-uppercase tracking-tight">Your Curated Pocket List</h1>
+            <p class="text-dim m-0 mt-2" style="font-size: 0.85rem; max-width: 650px;">
+                All your bookmarked destinations saved in browser LocalStorage. Review detailed guides, access packing checklists, or open the trip planner for your dream destinations.
+            </p>
+        </div>
+
+        <div id="favoritesSectionContent" class="text-start">
+            
+        </div>
+    </section>
+
+    <section id="communityView" class="view-panel" style="display: none;">
+        
+        <div class="glass p-4 p-md-5 rounded-4 mb-4 border border-white-5" style="background: linear-gradient(135deg, rgba(12, 13, 16, 0.98), rgba(0, 212, 255, 0.05));">
+            <div class="d-flex align-items-center gap-2 text-accent small text-uppercase fw-black mb-2" style="letter-spacing: 2.5px; font-size: 0.72rem;">
+                <i data-lucide="users" class="text-accent" style="width: 14px; height: 14px;"></i>
+                <span>Traveler Community Hub</span>
+            </div>
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                <div>
+                    <h1 class="fw-black h2 text-white m-0 text-gradient text-uppercase tracking-tight">Community Travel Logs &amp; Reviews</h1>
+                    <p class="text-dim m-0 mt-2" style="font-size: 0.85rem; max-width: 650px;">
+                        Authentic feedback, honest travel stories, and secret tips from fellow explorers across the Philippine islands.
+                    </p>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="glass px-3 py-2 rounded-3 border border-white-10 text-center">
+                        <div class="text-accent fw-black h5 m-0" id="communityTotalLogs">3 Verified Logs</div>
+                        <div class="text-dim small" style="font-size: 0.65rem;">Total Submissions</div>
+                    </div>
+                    <div class="glass px-3 py-2 rounded-3 border border-white-10 text-center">
+                        <div class="text-warning fw-black h5 m-0" id="communityAvgRating">★ 4.8 / 5.0</div>
+                        <div class="text-dim small" style="font-size: 0.65rem;">Community Rating</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 text-start">
+            
+            <div class="col-lg-5">
+                <div class="glass p-4 rounded-4 border border-white-5 h-100">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i data-lucide="edit-3" class="text-accent" style="width: 16px; height: 16px;"></i>
+                        <h3 class="fw-bold h5 text-white m-0">Share Your Experience</h3>
+                    </div>
+                    <p class="text-dim small mb-4" style="font-size: 0.75rem; line-height: 1.45;">
+                        Help other travelers! Submit your honest review, estimated budget, and safety recommendations.
+                    </p>
+
+                    <form id="reviewForm" novalidate>
+                        <div class="mb-3">
+                            <label for="reviewName" class="form-label text-dim small text-uppercase fw-black" style="font-size: 0.65rem;">Traveler Name *</label>
+                            <input type="text" id="reviewName" class="glass-input w-100" placeholder="e.g. Juan Dela Cruz" required>
+                            <div id="reviewNameError" class="validation-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="reviewRegion" class="form-label text-dim small text-uppercase fw-black" style="font-size: 0.65rem;">Philippine Region *</label>
+                            <select id="reviewRegion" class="glass-select w-100" required>
+                                
+                            </select>
+                            <div id="reviewRegionError" class="validation-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="reviewSpot" class="form-label text-dim small text-uppercase fw-black" style="font-size: 0.65rem;">Destination Visited *</label>
+                            <select id="reviewSpot" class="glass-select w-100" required disabled>
+                                <option value="">Select a region first</option>
+                            </select>
+                            <div id="reviewSpotError" class="validation-feedback"></div>
+                            <div id="reviewCustomSpotContainer" class="mt-2" style="display: none;">
+                                <label for="reviewCustomSpot" class="form-label text-dim small text-uppercase fw-black" style="font-size: 0.65rem;">Destination Name *</label>
+                                <input type="text" id="reviewCustomSpot" class="glass-input w-100" placeholder="Enter destination name" maxlength="120">
+                                <div id="reviewCustomSpotError" class="validation-feedback"></div>
+                            </div>
+                        </div>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <label for="reviewDate" class="form-label text-dim small text-uppercase fw-black" style="font-size: 0.65rem;">Date of Travel *</label>
+                                <input type="date" id="reviewDate" class="glass-input w-100" required>
+                                <div id="reviewDateError" class="validation-feedback"></div>
+                            </div>
+                            <div class="col-6">
+                                <label for="reviewBudget" class="form-label text-dim small text-uppercase fw-black" style="font-size: 0.65rem;">Estimated Spent (PHP)</label>
+                                <input type="number" id="reviewBudget" class="glass-input w-100" placeholder="₱" min="0" value="5000">
+                                <div id="reviewBudgetError" class="validation-feedback"></div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div id="reviewRatingLabel" class="form-label text-dim small text-uppercase fw-black d-block" style="font-size: 0.65rem;">Overall Rating *</div>
+                            <div id="starRatingPicker" class="d-flex align-items-center gap-1 py-1" role="group" aria-labelledby="reviewRatingLabel">
+                                <button type="button" class="star-btn" data-value="1">★</button>
+                                <button type="button" class="star-btn" data-value="2">★</button>
+                                <button type="button" class="star-btn" data-value="3">★</button>
+                                <button type="button" class="star-btn" data-value="4">★</button>
+                                <button type="button" class="star-btn" data-value="5">★</button>
+                            </div>
+                            <input type="hidden" id="reviewRatingInput" value="5">
+                            <div id="reviewRatingError" class="validation-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="reviewText" class="form-label text-dim small text-uppercase fw-black" style="font-size: 0.65rem;">Review &amp; Experience Story *</label>
+                            <textarea id="reviewText" class="glass-input w-100" rows="3" placeholder="Share what made your trip special, how the locals were, etc..." required></textarea>
+                            <div id="reviewTextError" class="validation-feedback"></div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="reviewTip" class="form-label text-dim small text-uppercase fw-black" style="font-size: 0.65rem;">Secret Tip or Warning for Travelers</label>
+                            <input type="text" id="reviewTip" class="glass-input w-100" placeholder="e.g. Wake up at 6am to beat tour boat crowds">
+                        </div>
+
+                        <button type="submit" class="btn btn-accent w-100 py-3 rounded-4 fw-black text-uppercase small letter-spacing-2">
+                            Post Travel Log
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                    <h3 class="fw-bold h5 text-white m-0">Recent Travel Stories</h3>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="text-dim small text-uppercase fw-bold" style="font-size: 0.65rem;">Filter:</span>
+                        <select id="reviewFilterSelect" class="glass-select py-1 px-3" style="font-size: 0.72rem;">
+                            <option value="all">All Experiences</option>
+                            <option value="5">5-Star Rated Only</option>
+                            <option value="4">4+ Stars</option>
+                            <option value="luzon">Luzon Island</option>
+                            <option value="visayas">Visayas Island</option>
+                            <option value="mindanao">Mindanao Island</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row g-3" id="reviewsListContainer">
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal-backdrop-custom" id="modalBackdrop">
+        <div class="modal-custom">
+            <button class="close-btn" id="closeModal" aria-label="Close modal">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="modal-side-img" id="modalImg">
+                <div style="position: absolute; bottom: 40px; left: 40px; right: 40px;">
+                    <div id="modalRegionTag" style="background: var(--accent); padding: 4px 12px; border-radius: 8px; font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: black; display: inline-block; margin-bottom: 12px;">Region</div>
+                    <h2 id="modalTitle" class="fw-black h1 m-0">Place Name</h2>
+                </div>
+            </div>
+            <div class="modal-content-custom">
+                <div class="d-flex align-items-center gap-2 small text-uppercase fw-black mb-4">
+                    <div style="width: 6px; height: 6px; background: var(--accent); border-radius: 50%;"></div>
+                    <span>Curated Details</span>
+                </div>
+                <p id="modalDesc" class="text-dim lead fw-light mb-4"></p>
+                
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="glass p-3 rounded-4 h-100">
+                            <div class="d-flex align-items-center gap-2 fw-bold mb-2 text-white">
+                                <i data-lucide="clock" class="text-accent" style="width: 16px; height: 16px;"></i>
+                                <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Best Time</span>
+                            </div>
+                            <div id="modalTime" class="small text-dim"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="glass p-3 rounded-4 h-100">
+                            <div class="d-flex align-items-center gap-2 fw-bold mb-2 text-white">
+                                <i data-lucide="shield-alert" class="text-accent" style="width: 16px; height: 16px;"></i>
+                                <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Do's &amp; Don'ts</span>
+                            </div>
+                            <div id="modalRules" class="small text-dim" style="font-size: 0.75rem; line-height: 1.4;"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="glass p-3 rounded-4 h-100">
+                            <div class="d-flex align-items-center gap-2 fw-bold mb-2 text-white">
+                                <i data-lucide="utensils" class="text-accent" style="width: 16px; height: 16px;"></i>
+                                <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Local Foods</span>
+                            </div>
+                            <div id="modalFood" class="small text-dim" style="font-size: 0.75rem; line-height: 1.4;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4 text-start">
+                    <div class="small text-uppercase fw-black mb-3 d-flex align-items-center gap-2" style="letter-spacing: 1px;">
+                        <i data-lucide="compass" class="text-accent animate-spin-slow" style="width: 15px; height: 15px;"></i>
+                        <span>Tourist Pocket Guide &amp; Preparation</span>
+                    </div>
+                    <div class="row g-3">
+                        
+                        <div class="col-md-6">
+                            <div class="glass p-3 rounded-4 h-100 border border-white-5" style="background: rgba(255, 255, 255, 0.02);">
+                                <div class="small text-white fw-bold mb-2.5 d-flex align-items-center gap-1.5" style="font-size: 0.75rem; letter-spacing: 0.5px;">
+                                    <i data-lucide="check-square" class="text-accent" style="width: 14px; height: 14px;"></i>
+                                    <span>Packing &amp; Gear Checklist</span>
+                                </div>
+                                <div class="d-flex flex-column gap-2" id="modalChecklistArea">
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="glass p-3 rounded-4 h-100 border border-white-5 d-flex flex-column justify-content-between" style="background: rgba(255, 255, 255, 0.02)">
+                                <div>
+                                    <div class="small text-white fw-bold mb-1.5 d-flex align-items-center gap-1.5" style="font-size: 0.75rem; letter-spacing: 0.5px;">
+                                        <i data-lucide="map-pin" class="text-accent" style="width: 14px; height: 14px;"></i>
+                                        <span>How to Get There</span>
+                                    </div>
+                                    <p id="modalHowToGet" class="small text-dim m-0" style="font-size: 0.72rem; line-height: 1.45;"></p>
+                                </div>
+                                <div class="mt-3 pt-2.5 border-top border-white-10">
+                                    <div class="small text-white fw-bold mb-1.5 d-flex align-items-center gap-1.5" style="font-size: 0.75rem; letter-spacing: 0.5px;">
+                                        <i data-lucide="banknote" class="text-accent" style="width: 14px; height: 14px;"></i>
+                                        <span>Est. Fees &amp; Expenses</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between small text-dim" style="font-size: 0.7rem;">
+                                        <span>Admin / Eco-Fee:</span>
+                                        <span id="modalEstAdminFee" class="text-white fw-bold text-gradient">₱100 - ₱200</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between small text-dim" style="font-size: 0.7rem; margin-top:2px;">
+                                        <span>Local Tour Guide:</span>
+                                        <span id="modalEstGuideFee" class="text-white fw-bold text-gradient">₱500 - ₱1,500</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4 text-start">
+                    <div class="tourist-shield-header mb-2.5">
+                        <h3 class="tourist-shield-title small text-uppercase fw-black m-0">
+                            <i data-lucide="shield-alert" style="width: 15px; height: 15px;"></i>
+                            <span>Tourist Shield: Anti-Scam &amp; Safety Guide</span>
+                        </h3>
+                        <span class="tourist-shield-badge badge rounded-pill fw-black">Iwas-Scam Verified</span>
+                    </div>
+                    <div class="p-3 rounded-4" style="background: rgba(255, 94, 98, 0.03); border: 1px solid rgba(255, 94, 98, 0.15);">
+                        <div class="row g-3">
+                            <div class="col-md-6" style="border-right: 1px solid rgba(255,255,255,0.06);">
+                                <div class="d-flex gap-2 text-start h-100">
+                                    <i data-lucide="shield-ban" style="width: 15px; height: 15px; color: #ff5e62; flex-shrink: 0;" class="mt-0.5"></i>
+                                    <div>
+                                        <div class="text-white fw-bold small mb-1" style="font-size: 0.75rem;">Iwas Overpricing &amp; Unregistered Touts</div>
+                                        <p id="shieldScamText" class="text-dim m-0" style="font-size: 0.72rem; line-height: 1.45;"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex gap-2 text-start h-100">
+                                    <i data-lucide="cloud-lightning" style="width: 15px; height: 15px; color: #ff5e62; flex-shrink: 0;" class="mt-0.5"></i>
+                                    <div>
+                                        <div class="text-white fw-bold small mb-1" style="font-size: 0.75rem;">Weather, Cash &amp; Signal Hazards</div>
+                                        <p id="shieldHazardText" class="text-dim m-0" style="font-size: 0.72rem; line-height: 1.45;"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="modalPlanBtn" class="btn btn-accent w-100 py-3 rounded-4 fw-black text-uppercase small letter-spacing-2">
+                    Plan Trip For This Region
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
